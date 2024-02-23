@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Person } from 'src/app/models/person.model';
 
 @Component({
   selector: 'app-people',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent {
+
+  @Input() person? : Person
 
 }
