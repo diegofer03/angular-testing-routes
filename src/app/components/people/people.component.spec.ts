@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PeopleComponent } from './people.component';
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Person } from 'src/app/models/person.model';
 
-fdescribe('PeopleComponent', () => {
+describe('PeopleComponent', () => {
   let component: PeopleComponent;
   let fixture: ComponentFixture<PeopleComponent>;
 
@@ -90,3 +90,54 @@ fdescribe('PeopleComponent', () => {
     expect(selectPerson).toEqual(expectPerson)
   })
 });
+
+@Component({
+  template: `<app-people [person]="person" (onSelec)="onSelected($event)"/>`
+})
+class HostComponent{
+  person = new Person('alex', 'efe', 22, 85, 188)
+  selectedPerson : Person | undefined
+
+  onSelected(person: Person){
+    this.selectedPerson = person
+  }
+}
+
+fdescribe('HostComponent', () => {
+  let component : HostComponent
+  let fixture : ComponentFixture<HostComponent>
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [HostComponent, PeopleComponent]
+    }).compileComponents()
+
+    fixture = TestBed.createComponent(HostComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
+
+  it('should create host component', () => {
+    expect(component).toBeTruthy()
+  })
+
+  it('should render child component PeopleComponent', () => {
+    const expectedName = component.person.name
+    const h3Debug : DebugElement = fixture.debugElement.query(By.css('app-people h3'))
+    const h3Elem : HTMLElement = h3Debug.nativeElement
+
+    fixture.detectChanges()
+
+    expect(h3Elem.textContent).toContain(expectedName)
+  })
+
+  it('should get data from child output', () => {
+    const expectedPerson = component.person
+    const buttonDebug : DebugElement = fixture.debugElement.query(By.css('app-people .btn-choose'))
+
+    buttonDebug.triggerEventHandler('click', null)
+    fixture.detectChanges()
+
+    expect(component.selectedPerson).toEqual(expectedPerson)
+  })
+})
