@@ -91,6 +91,7 @@ describe('PeopleComponent', () => {
   })
 });
 
+//pruebas aisladas del componente
 @Component({
   template: `<app-people [person]="person" (onSelec)="onSelected($event)"/>`
 })
