@@ -57,4 +57,20 @@ fdescribe('PeopleComponent', () => {
 
     expect(h3?.textContent).toContain(component.person.name);
   });
+
+  it('Should execute calcularImc', () => {
+    const buttonElem : HTMLElement = fixture.debugElement.query(By.css('button.btn-imc')).nativeElement
+    component.person = new Person('alex', 'efe', 22, 85, 188)
+    component.calcularImc()
+    fixture.detectChanges()
+    expect(buttonElem.textContent).toContain(component.person.calcIMC())
+  })
+  it('should execute calcuarImc with button click', () => {
+    const buttonDeb : DebugElement = fixture.debugElement.query(By.css('button.btn-imc'))
+    const buttonElem : HTMLElement = buttonDeb.nativeElement
+    component.person = new Person('alex', 'efe', 22, 85, 188)
+    buttonDeb.triggerEventHandler('click', null)
+    fixture.detectChanges()
+    expect(buttonElem.textContent).toContain(component.person.calcIMC())
+  })
 });

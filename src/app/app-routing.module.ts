@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductsComponent } from './components/products/products.component';
 import { PicoPreviewComponent } from './components/pico-preview/pico-preview.component';
 import { PeopleComponent } from './components/people/people.component';
+import { PersonsComponent } from './components/persons/persons.component';
 
 const routes: Routes = [
   {
@@ -18,9 +19,9 @@ const routes: Routes = [
     // loadComponent: () => import('./components/pico-preview/pico-preview.component').then(m => m.PicoPreviewComponent)
   },
   {
-    path: 'people',
-    title: 'People',
-    component: PeopleComponent
+    path: 'persons',
+    title: 'Persons',
+    component: PersonsComponent
   }
 ];
 
