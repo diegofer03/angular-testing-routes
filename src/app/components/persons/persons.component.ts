@@ -10,4 +10,7 @@ export class PersonsComponent {
 
   person: Person = new Person('Name', 'LastName', 30, 80, 1.69);
 
+  onSelec(person: Person){
+    console.log(person)
+  }
 }

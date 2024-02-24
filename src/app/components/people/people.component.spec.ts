@@ -73,4 +73,20 @@ fdescribe('PeopleComponent', () => {
     fixture.detectChanges()
     expect(buttonElem.textContent).toContain(component.person.calcIMC())
   })
+  it('should emmit event output when button clicks', () => {
+    const buttonDeb : DebugElement = fixture.debugElement.query(By.css('button.btn-choose'))
+    // const buttonElem : HTMLElement = buttonDeb.nativeElement
+    const expectPerson = new Person('alex', 'efe', 22, 85, 188)
+    component.person = expectPerson
+    let selectPerson : Person | undefined
+
+    component.onSelec.subscribe(person => {
+      selectPerson = person
+    })
+
+    buttonDeb.triggerEventHandler('click', null)
+    fixture.detectChanges()
+
+    expect(selectPerson).toEqual(expectPerson)
+  })
 });
