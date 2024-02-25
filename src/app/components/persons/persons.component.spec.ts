@@ -36,4 +36,21 @@ fdescribe('PersonsComponent', () => {
 
     expect(debugElement.length).toEqual(component.people.length)
   })
+
+  it('should trigger event from child component', () => {
+    component.people = [
+      new Person('Jesus', 'LastName', 30, 80, 1.69),
+      new Person('Andres', 'LastName', 30, 80, 1.69),
+      new Person('Tiburon', 'LastName', 30, 80, 1.69),
+    ]
+    fixture.detectChanges()
+
+    const buttonDebug : DebugElement[] = fixture.debugElement.queryAll(By.css('app-people .btn-choose'))
+    buttonDebug[0].triggerEventHandler('click', null)
+    console.log(buttonDebug)
+    fixture.detectChanges()
+
+    expect(component.selectedPerson).toEqual(component.people[0])
+
+  })
 });

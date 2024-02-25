@@ -7,5 +7,5 @@
     </ul>
   </div>
   <h3>Count ({{ people.length }})</h3>
-  <app-people *ngFor="let person of people" [person]="person" onselect="onSelec($event)"/>
+  <app-people *ngFor="let person of people" [person]="person" (onSelec)="onSelec($event)"/>
 </section>
