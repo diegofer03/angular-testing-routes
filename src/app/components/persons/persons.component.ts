@@ -8,9 +8,14 @@ import { Person } from 'src/app/models/person.model';
 })
 export class PersonsComponent {
 
-  person: Person = new Person('Name', 'LastName', 30, 80, 1.69);
+  people: Person[] = [
+    new Person('Jesus', 'LastName', 30, 80, 1.69),
+    new Person('Andres', 'LastName', 30, 80, 1.69),
+  ];
+  selectedPerson : Person | null = null
 
   onSelec(person: Person){
     console.log(person)
+    this.selectedPerson = person
   }
 }
