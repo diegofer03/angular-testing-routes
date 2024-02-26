@@ -47,10 +47,17 @@ fdescribe('PersonsComponent', () => {
 
     const buttonDebug : DebugElement[] = fixture.debugElement.queryAll(By.css('app-people .btn-choose'))
     buttonDebug[0].triggerEventHandler('click', null)
-    console.log(buttonDebug)
     fixture.detectChanges()
 
     expect(component.selectedPerson).toEqual(component.people[0])
 
+  })
+
+  it('should render selectedPerson', () => {
+    const buttonElem : DebugElement = fixture.debugElement.query(By.css('app-people .btn-choose'))
+    buttonElem.triggerEventHandler('click', null)
+    fixture.detectChanges()
+    const Lielem : HTMLElement = fixture.debugElement.query(By.css('.selectedPerson ul>li')).nativeElement
+    expect(Lielem.textContent).toContain(component.people[0].name)
   })
 });
