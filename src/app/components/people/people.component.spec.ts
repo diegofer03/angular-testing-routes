@@ -104,7 +104,7 @@ class HostComponent{
   }
 }
 
-fdescribe('HostComponent', () => {
+describe('HostComponent', () => {
   let component : HostComponent
   let fixture : ComponentFixture<HostComponent>
 
