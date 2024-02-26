@@ -15,7 +15,7 @@ export class ProductsComponent {
   }
 
   getAllProducts(){
-    this.productService.getAllSimple().subscribe({
+    this.productService.getAll().subscribe({
       next: (data) => {
         this.products = data
       },
