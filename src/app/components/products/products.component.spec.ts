@@ -26,15 +26,24 @@ fdescribe('ProductsComponent', () => {
     component = fixture.componentInstance;
     productsService = TestBed.inject(ProductsService) as jasmine.SpyObj<ProductsService>
     // fixture.detectChanges();
-
-  });
-
-  it('should create', () => {
     const productsMock = generateManyProducts(3);
     productsService.getAll.and.returnValue(of(productsMock));
     fixture.detectChanges(); // ngOnInit
+  });
+
+  it('should create', () => {
+
     expect(component).toBeTruthy();
     expect(productsService.getAll).toHaveBeenCalled();
     // expect(component).toBeTruthy();
   });
+
+  it('should get list from request pagination', () => {
+    component.products = []
+    const productsMock = generateManyProducts(10)
+    productsService.getAll.and.returnValue(of(productsMock))
+    component.getAllProducts()
+    fixture.detectChanges()
+    expect(component.products.length).toEqual(productsMock.length)
+  })
 });

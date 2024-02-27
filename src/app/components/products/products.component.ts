@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Product } from 'src/app/models/app.models';
+import { Product, loading } from 'src/app/models/app.models';
 import { ProductsService } from 'src/app/services/products/products.service';
 
 @Component({
@@ -10,16 +10,23 @@ import { ProductsService } from 'src/app/services/products/products.service';
 export class ProductsComponent {
   productService = inject(ProductsService)
   products : Product[] = []
+  limit = 10
+  offset = 0
+  status: loading = 'init'
+
   ngOnInit(){
     this.getAllProducts()
   }
 
   getAllProducts(){
-    this.productService.getAll().subscribe({
+    this.productService.getAll(this.limit, this.offset).subscribe({
       next: (data) => {
-        this.products = data
+        this.products = [...this.products,...data]
+        this.offset += this.limit
+        this.status = 'success'
       },
       error: (error) => {
+        this.status = 'error'
         console.log(error)
       }
     })

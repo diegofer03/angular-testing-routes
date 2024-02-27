@@ -37,3 +37,5 @@ export interface FileRta {
   filename: string;
   location: string;
 }
+
+export type loading =  'init' | 'success' | 'loading' | 'error'
