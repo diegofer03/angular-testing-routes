@@ -19,6 +19,7 @@ export class ProductsComponent {
   }
 
   getAllProducts(){
+    this.status = 'loading'
     this.productService.getAll(this.limit, this.offset).subscribe({
       next: (data) => {
         this.products = [...this.products,...data]

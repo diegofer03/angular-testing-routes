@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { generateManyProducts } from 'src/app/models/app.mocks';
-import { of } from 'rxjs';
+import { defer, of } from 'rxjs';
+import { Product } from 'src/app/models/app.models';
 
 fdescribe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -46,4 +47,25 @@ fdescribe('ProductsComponent', () => {
     fixture.detectChanges()
     expect(component.products.length).toEqual(productsMock.length)
   })
+
+  it('should change state loading -> success in request', fakeAsync(() => {
+    const productsMock = generateManyProducts(10)
+    productsService.getAll.and.returnValue(defer(() => Promise.resolve(productsMock)))
+    component.getAllProducts()
+    fixture.detectChanges()
+    expect(component.status).toEqual('loading')
+    tick()
+    fixture.detectChanges()
+    expect(component.status).toEqual('success')
+  }))
+
+  it('should change state loading -> error in request', fakeAsync(() => {
+    productsService.getAll.and.returnValue(defer(() => Promise.reject('error')))
+    component.getAllProducts()
+    fixture.detectChanges()
+    expect(component.status).toEqual('loading')
+    tick()
+    fixture.detectChanges()
+    expect(component.status).toEqual('error')
+  }))
 });
