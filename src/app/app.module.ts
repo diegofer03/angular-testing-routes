@@ -10,6 +10,8 @@ import { PeopleComponent } from './components/people/people.component';
 import { PersonsComponent } from './components/persons/persons.component';
 import { ProductComponent } from './components/product/product.component';
 import { HighlightDirective } from './directives/highlight.directive';
+import { OthersComponent } from './components/others/others.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { HighlightDirective } from './directives/highlight.directive';
     PersonsComponent,
     ProductComponent,
     HighlightDirective,
+    OthersComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
