@@ -9,6 +9,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PeopleComponent } from './components/people/people.component';
 import { PersonsComponent } from './components/persons/persons.component';
 import { ProductComponent } from './components/product/product.component';
+import { HighlightDirective } from './directives/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ProductComponent } from './components/product/product.component';
     PeopleComponent,
     PersonsComponent,
     ProductComponent,
+    HighlightDirective,
   ],
   imports: [
     BrowserModule,
