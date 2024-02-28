@@ -11,7 +11,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { HtmlParser } from '@angular/compiler';
 
-fdescribe('ProductsComponent', () => {
+describe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productsService: jasmine.SpyObj<ProductsService>
