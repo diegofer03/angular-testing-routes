@@ -2,6 +2,7 @@ import { Component, DebugElement, ElementRef } from '@angular/core';
 import { HighlightDirective } from './highlight.directive';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   template: `
@@ -9,9 +10,10 @@ import { By } from '@angular/platform-browser';
     <h5 highlight="yellow">yellow</h5>
     <p highlight="blue">parrafo</p>
     <p>otro parrafo</p>
+    <input [(ngModel)]="color" [highlight]="color">
   `
 })export class HostComponent {
-
+  color = 'blue'
 }
 
 fdescribe('HighlightDirective', () => {
@@ -20,7 +22,8 @@ fdescribe('HighlightDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HostComponent, HighlightDirective]
+      declarations: [HostComponent, HighlightDirective],
+      imports: [ FormsModule ]
     }).compileComponents()
 
     fixture = TestBed.createComponent(HostComponent)
@@ -37,8 +40,8 @@ fdescribe('HighlightDirective', () => {
     let elementRef : DebugElement[] = fixture.debugElement.queryAll(By.directive(HighlightDirective))
     let elementWithOutRef :  DebugElement [] = fixture.debugElement.queryAll(By.css('*:not([highlight])'))
     console.log(elementRef)
-    expect(elementRef.length).toEqual(3)
-    expect(elementWithOutRef.length).toEqual(1)
+    expect(elementRef.length).toEqual(4)
+    expect(elementWithOutRef.length).toEqual(2)
   })
 
   it('should the elements be match with bgColor', () => {
@@ -54,4 +57,17 @@ fdescribe('HighlightDirective', () => {
     expect(elementRef.nativeElement.style.backgroundColor).toEqual(dir.defaultColor)
   })
 
+  it('should bind <input> and change the bgColor', () => {
+    const inputDe = fixture.debugElement.query(By.css('input'));
+    const inputEl: HTMLInputElement = inputDe.nativeElement;
+
+    expect(inputEl.style.backgroundColor).toEqual('blue');
+
+    inputEl.value = 'red';
+    inputEl.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+
+    expect(inputEl.style.backgroundColor).toEqual('red');
+    expect(component.color).toEqual('red');
+  });
 });
