@@ -12,6 +12,7 @@ import { ProductComponent } from './components/product/product.component';
 import { HighlightDirective } from './directives/highlight.directive';
 import { OthersComponent } from './components/others/others.component';
 import { FormsModule } from '@angular/forms';
+import { ReversePipe } from './pipes/reverse.pipe';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     ProductComponent,
     HighlightDirective,
     OthersComponent,
+    ReversePipe,
   ],
   imports: [
     BrowserModule,

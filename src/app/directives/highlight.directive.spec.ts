@@ -16,7 +16,7 @@ import { FormsModule } from '@angular/forms';
   color = 'blue'
 }
 
-fdescribe('HighlightDirective', () => {
+describe('HighlightDirective', () => {
   let component : HostComponent
   let fixture : ComponentFixture<HostComponent>
 
