@@ -237,7 +237,6 @@ describe('ProductsService', () => {
       const id = '1'
       service.update(id, {...dto}).subscribe((data) => {
         expect(data).toEqual(mockData)
-        console.log(data)
         doneFn()
       })
       const req = httpController.expectOne(`${url}/products/${id}`)

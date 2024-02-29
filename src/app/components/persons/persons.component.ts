@@ -15,7 +15,6 @@ export class PersonsComponent {
   selectedPerson : Person | null = null
 
   onSelec(person: Person){
-    console.log(person)
     this.selectedPerson = person
   }
 }

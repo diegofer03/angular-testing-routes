@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductComponent } from './product.component';
+import { generateOneProduct } from 'src/app/models/app.mocks';
 
 describe('ProductComponent', () => {
   let component: ProductComponent;
@@ -14,6 +15,8 @@ describe('ProductComponent', () => {
 
     fixture = TestBed.createComponent(ProductComponent);
     component = fixture.componentInstance;
+    const mockProduct = generateOneProduct()
+    component.product = mockProduct
     fixture.detectChanges();
   });
 

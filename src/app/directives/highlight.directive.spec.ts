@@ -39,7 +39,6 @@ describe('HighlightDirective', () => {
     // let elementRef : DebugElement[] = fixture.debugElement.queryAll(By.css('*:[highligth]'))
     let elementRef : DebugElement[] = fixture.debugElement.queryAll(By.directive(HighlightDirective))
     let elementWithOutRef :  DebugElement [] = fixture.debugElement.queryAll(By.css('*:not([highlight])'))
-    console.log(elementRef)
     expect(elementRef.length).toEqual(4)
     expect(elementWithOutRef.length).toEqual(2)
   })

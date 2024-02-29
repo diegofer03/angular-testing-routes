@@ -17,7 +17,6 @@ export class PeopleComponent {
   }
 
   onClick(){
-    console.log(this.person)
     this.onSelec.emit(this.person)
   }
 
