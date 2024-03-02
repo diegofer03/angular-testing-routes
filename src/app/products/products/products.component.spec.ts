@@ -9,7 +9,7 @@ import { Product } from 'src/app/models/app.models';
 import { ValueService } from 'src/app/services/value/value.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { asyncData, asyncError, mockObservable, mockPromise } from '@testing';
+import { asyncData, asyncError, mockObservable, mockPromise, query } from '@testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -81,7 +81,7 @@ describe('ProductsComponent', () => {
     it('should make request when button trigger', fakeAsync(() => {
       const mockProducts = generateManyProducts(10)
       productsService.getAll.and.returnValue(asyncData(mockProducts))
-      const buttonDeb : DebugElement = fixture.debugElement.query(By.css('#btnProducts'))
+      const buttonDeb : DebugElement = query(fixture, '#btnProducts')
       buttonDeb.triggerEventHandler('click', null)
       fixture.detectChanges()
       expect(component.status).toEqual('loading')
