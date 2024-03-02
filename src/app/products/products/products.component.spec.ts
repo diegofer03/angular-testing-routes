@@ -9,7 +9,7 @@ import { Product } from 'src/app/models/app.models';
 import { ValueService } from 'src/app/services/value/value.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { asyncData, asyncError, mockObservable, mockPromise } from 'src/testing-helpers';
+import { asyncData, asyncError, mockObservable, mockPromise } from '@testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
