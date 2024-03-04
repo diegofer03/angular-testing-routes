@@ -34,8 +34,8 @@
             [attr.aria-invalid]="emailField?.touched ? emailField?.invalid : ''"
           />
           <ng-container *ngIf="emailField?.touched && emailField?.errors">
-            <small *ngIf="emailField?.hasError('required')">*Required</small>
-            <small *ngIf="emailField?.hasError('email')"
+            <small id="emailRequired" *ngIf="emailField?.hasError('required')">*Required</small>
+            <small id="invalidEmail" *ngIf="emailField?.hasError('email')"
               >*It's not a email</small
             >
           </ng-container>
