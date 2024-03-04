@@ -3,6 +3,7 @@ import { ReversePipe } from './reverse.pipe';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { getText } from '@testing';
 
 describe('ReversePipe', () => {
   it('create an instance', () => {
@@ -47,8 +48,8 @@ describe('ReversePipe', () => {
     });
 
     it('should text be reverse', () => {
-      const elementRef : HTMLElement = fixture.debugElement.query(By.css('h5')).nativeElement
-      expect(elementRef.textContent).toBe('roma')
+      const elementContent = getText(fixture, 'h5')
+      expect(elementContent).toBe('roma')
     })
 
     it('should apply reverse in input', () => {
@@ -59,9 +60,9 @@ describe('ReversePipe', () => {
       inputElem.dispatchEvent(new Event('input'))
       fixture.detectChanges()
 
-      const pElem : HTMLElement = fixture.debugElement.query(By.css('p')).nativeElement
+      const pContent = getText(fixture, 'p')
 
-      expect(pElem.textContent).toEqual('rolon')
+      expect(pContent).toEqual('rolon')
     })
   })
 });

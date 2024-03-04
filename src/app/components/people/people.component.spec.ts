@@ -4,6 +4,7 @@ import { PeopleComponent } from './people.component';
 import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { Person } from 'src/app/models/person.model';
+import { clickEvent, getText } from '@testing';
 
 describe('PeopleComponent', () => {
   let component: PeopleComponent;
@@ -66,16 +67,13 @@ describe('PeopleComponent', () => {
     expect(buttonElem.textContent).toContain(component.person.calcIMC())
   })
   it('should execute calcuarImc with button click', () => {
-    const buttonDeb : DebugElement = fixture.debugElement.query(By.css('button.btn-imc'))
-    const buttonElem : HTMLElement = buttonDeb.nativeElement
     component.person = new Person('alex', 'efe', 22, 85, 188)
-    buttonDeb.triggerEventHandler('click', null)
+    clickEvent(fixture, 'button.btn-imc')
     fixture.detectChanges()
-    expect(buttonElem.textContent).toContain(component.person.calcIMC())
+    const buttonText = getText(fixture, 'button.btn-imc')
+    expect(buttonText).toContain(component.person.calcIMC())
   })
   it('should emmit event output when button clicks', () => {
-    const buttonDeb : DebugElement = fixture.debugElement.query(By.css('button.btn-choose'))
-    // const buttonElem : HTMLElement = buttonDeb.nativeElement
     const expectPerson = new Person('alex', 'efe', 22, 85, 188)
     component.person = expectPerson
     let selectPerson : Person | undefined
@@ -83,8 +81,7 @@ describe('PeopleComponent', () => {
     component.onSelec.subscribe(person => {
       selectPerson = person
     })
-
-    buttonDeb.triggerEventHandler('click', null)
+    clickEvent(fixture, 'button.btn-choose')
     fixture.detectChanges()
 
     expect(selectPerson).toEqual(expectPerson)
@@ -124,19 +121,15 @@ describe('HostComponent', () => {
 
   it('should render child component PeopleComponent', () => {
     const expectedName = component.person.name
-    const h3Debug : DebugElement = fixture.debugElement.query(By.css('app-people h3'))
-    const h3Elem : HTMLElement = h3Debug.nativeElement
-
+    const h3Content = getText(fixture, 'app-people h3')
     fixture.detectChanges()
 
-    expect(h3Elem.textContent).toContain(expectedName)
+    expect(h3Content).toContain(expectedName)
   })
 
   it('should get data from child output', () => {
     const expectedPerson = component.person
-    const buttonDebug : DebugElement = fixture.debugElement.query(By.css('app-people .btn-choose'))
-
-    buttonDebug.triggerEventHandler('click', null)
+    clickEvent(fixture, 'app-people .btn-choose')
     fixture.detectChanges()
 
     expect(component.selectedPerson).toEqual(expectedPerson)
