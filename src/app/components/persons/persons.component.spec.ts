@@ -5,6 +5,7 @@ import { Person } from 'src/app/models/person.model';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { PeopleComponent } from '../people/people.component';
+import { clickEvent, getText } from '@testing';
 
 describe('PersonsComponent', () => {
   let component: PersonsComponent;
@@ -54,10 +55,9 @@ describe('PersonsComponent', () => {
   })
 
   it('should render selectedPerson', () => {
-    const buttonElem : DebugElement = fixture.debugElement.query(By.css('app-people .btn-choose'))
-    buttonElem.triggerEventHandler('click', null)
+    clickEvent(fixture,'app-people .btn-choose')
     fixture.detectChanges()
-    const Lielem : HTMLElement = fixture.debugElement.query(By.css('.selectedPerson ul>li')).nativeElement
-    expect(Lielem.textContent).toContain(component.people[0].name)
+    const liTextContent = getText(fixture, '.selectedPerson ul>li')
+    expect(liTextContent).toContain(component.people[0].name)
   })
 });

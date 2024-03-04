@@ -9,7 +9,7 @@ import { Product } from 'src/app/models/app.models';
 import { ValueService } from 'src/app/services/value/value.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { asyncData, asyncError, mockObservable, mockPromise, query } from '@testing';
+import { asyncData, asyncError, clickEvent, getText, mockObservable, mockPromise, query } from '@testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -81,8 +81,7 @@ describe('ProductsComponent', () => {
     it('should make request when button trigger', fakeAsync(() => {
       const mockProducts = generateManyProducts(10)
       productsService.getAll.and.returnValue(asyncData(mockProducts))
-      const buttonDeb : DebugElement = query(fixture, '#btnProducts')
-      buttonDeb.triggerEventHandler('click', null)
+      clickEvent(fixture, '#btnProducts')
       fixture.detectChanges()
       expect(component.status).toEqual('loading')
       tick()
@@ -105,12 +104,11 @@ describe('ProductsComponent', () => {
     it('should exceute promise call when button trigger', fakeAsync (() => {
       const mockMsg = 'new promise'
       valueService.getPromiseValue.and.returnValue(mockPromise(mockMsg))
-      const buttonDeb : DebugElement = fixture.debugElement.query(By.css('#btnPromise'))
-      buttonDeb.triggerEventHandler('click', null)
+      clickEvent(fixture, '#btnPromise')
       tick()
       fixture.detectChanges()
-      const pElem : HTMLElement = fixture.debugElement.query(By.css('p')).nativeElement
-      expect(pElem.textContent).toContain(mockMsg)
+      const elemText = getText(fixture, 'p')
+      expect(elemText).toContain(mockMsg)
     }))
   })
 });
