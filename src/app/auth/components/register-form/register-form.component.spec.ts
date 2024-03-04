@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
+import { getText, query } from '@testing';
 
 fdescribe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -53,6 +54,25 @@ fdescribe('RegisterFormComponent', () => {
 
     component.passwordField?.setValue('123asdf')
     expect(component.passwordField?.valid).withContext('valid').toBeTruthy()
+  })
+
+  it('should display ui message when error input email', () => {
+    const inputEl: HTMLInputElement = query(fixture, '#email').nativeElement
+    inputEl.value = ''
+    inputEl.dispatchEvent(new Event('input'))
+    inputEl.dispatchEvent(new Event('blur'))
+    fixture.detectChanges()
+    expect(component.emailField?.invalid).withContext('invalid').toBeTruthy()
+    const errorRequiredText = getText(fixture, '#emailRequired')
+    expect(errorRequiredText).withContext('empty field').toBeDefined()
+
+    inputEl.value = '1231323'
+    inputEl.dispatchEvent(new Event('input'))
+    inputEl.dispatchEvent(new Event('blur'))
+    fixture.detectChanges()
+
+    const errorInvalidDeb = getText(fixture, '#invalidEmail')
+    expect(errorInvalidDeb).toBeDefined()
   })
 
   it('should the form be invalid', () => {
