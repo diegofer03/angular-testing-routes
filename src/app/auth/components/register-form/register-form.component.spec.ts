@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { getText, query } from '@testing';
+import { getText, query, setInputValue } from '@testing';
 
-fdescribe('RegisterFormComponent', () => {
+describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let userService: jasmine.SpyObj<UserService>
@@ -57,18 +57,13 @@ fdescribe('RegisterFormComponent', () => {
   })
 
   it('should display ui message when error input email', () => {
-    const inputEl: HTMLInputElement = query(fixture, '#email').nativeElement
-    inputEl.value = ''
-    inputEl.dispatchEvent(new Event('input'))
-    inputEl.dispatchEvent(new Event('blur'))
+    setInputValue(fixture, '#email', '')
     fixture.detectChanges()
     expect(component.emailField?.invalid).withContext('invalid').toBeTruthy()
     const errorRequiredText = getText(fixture, '#emailRequired')
     expect(errorRequiredText).withContext('empty field').toBeDefined()
 
-    inputEl.value = '1231323'
-    inputEl.dispatchEvent(new Event('input'))
-    inputEl.dispatchEvent(new Event('blur'))
+    setInputValue(fixture, '#email', '1231232')
     fixture.detectChanges()
 
     const errorInvalidDeb = getText(fixture, '#invalidEmail')

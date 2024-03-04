@@ -42,6 +42,9 @@ module.exports = function (config) {
       }
     },
     reporters: ['mocha', 'kjhtml'],
+    mochaReporter: {
+      ignoreSkipped: true,
+    },
     browsers: ['Chrome'],
     customLaunchers: {
       ChromeHeadlessCI: {
