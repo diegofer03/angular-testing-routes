@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { asyncData, getText, mockObservable, query, setInputValue } from '@testing';
+import { asyncData, clickElemnt, getText, mockObservable, query, setCheckValue, setInputValue } from '@testing';
 import { generateOneUser } from 'src/app/models/user.model';
 
 fdescribe('RegisterFormComponent', () => {
@@ -87,5 +87,23 @@ fdescribe('RegisterFormComponent', () => {
     expect(component.status).toEqual('success')
     expect(component.form.valid).toBeTruthy();
     expect(userService.create).toHaveBeenCalled()
+  }))
+
+  it('should submit fomr successfully from UI fields ', fakeAsync(() => {
+    setInputValue(fixture, '#name', 'Nico')
+    setInputValue(fixture, '#email', 'nico@gmil.com')
+    setInputValue(fixture, '#password','12121212')
+    setInputValue(fixture, '#confirmPassword', '12121212')
+    setCheckValue(fixture, '#terms', true)
+    const mockUser = generateOneUser()
+    userService.create.and.returnValue(asyncData(mockUser))
+    // query(fixture, 'form').triggerEventHandler('ngSubmit', new Event('submit'))
+    clickElemnt(fixture, '#submitBtn')
+    fixture.detectChanges()
+    expect(component.form.valid).toBeTruthy()
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(userService.create).toHaveBeenCalled()
+    expect(component.status).toEqual('success')
   }))
 });
