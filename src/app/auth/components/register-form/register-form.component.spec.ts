@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { getText, query, setInputValue } from '@testing';
+import { asyncData, getText, mockObservable, query, setInputValue } from '@testing';
+import { generateOneUser } from 'src/app/models/user.model';
 
-describe('RegisterFormComponent', () => {
+fdescribe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let userService: jasmine.SpyObj<UserService>
@@ -70,14 +71,21 @@ describe('RegisterFormComponent', () => {
     expect(errorInvalidDeb).toBeDefined()
   })
 
-  it('should the form be invalid', () => {
+  it('should the form be valid and complete succesfully request', fakeAsync(() => {
     component.form.patchValue({
       name: 'Nico',
       email: 'nico@gmil.com',
       password: '12121212',
       confirmPassword: '12121212',
-      checkTerms: false
+      checkTerms: true
     });
-    expect(component.form.invalid).toBeTruthy();
-  })
+    const mockUser = generateOneUser()
+    userService.create.and.returnValue(asyncData(mockUser))
+    component.register(new Event('submit'))
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(component.status).toEqual('success')
+    expect(component.form.valid).toBeTruthy();
+    expect(userService.create).toHaveBeenCalled()
+  }))
 });
