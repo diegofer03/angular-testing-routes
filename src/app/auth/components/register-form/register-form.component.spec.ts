@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { asyncData, clickElemnt, getText, mockObservable, query, setCheckValue, setInputValue } from '@testing';
+import { asyncData, asyncError, clickElemnt, getText, mockObservable, query, setCheckValue, setInputValue } from '@testing';
 import { generateOneUser } from 'src/app/models/user.model';
 
 fdescribe('RegisterFormComponent', () => {
@@ -105,5 +105,24 @@ fdescribe('RegisterFormComponent', () => {
     tick()
     expect(userService.create).toHaveBeenCalled()
     expect(component.status).toEqual('success')
+  }))
+
+  it('should handle fail request in api', fakeAsync(() => {
+    setInputValue(fixture, '#name', 'Nico')
+    setInputValue(fixture, '#email', 'nico@gmil.com')
+    setInputValue(fixture, '#password','12121212')
+    setInputValue(fixture, '#confirmPassword', '12121212')
+    setCheckValue(fixture, '#terms', true)
+    userService.create.and.returnValue(asyncError('error'))
+    query(fixture, 'form').triggerEventHandler('ngSubmit', new Event('submit'))
+    fixture.detectChanges()
+    expect(component.form.valid).toBeTruthy()
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(userService.create).toHaveBeenCalled()
+    expect(component.status).toEqual('failed')
+    fixture.detectChanges()
+    const errorLabel =  query(fixture, '#errorMsg').nativeElement
+    expect(errorLabel).toBeDefined()
   }))
 });

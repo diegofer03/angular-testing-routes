@@ -99,6 +99,7 @@
         </label>
       </fieldset>
       <button id="submitBtn" type="submit">Register</button>
+      <label id="errorMsg" *ngIf="status === 'failed'">Error in request</label>
     </div>
   </form>
 </section>
