@@ -98,7 +98,8 @@
           I agree to the Terms and Conditions
         </label>
       </fieldset>
-      <button type="submit">Register</button>
+      <button id="submitBtn" type="submit">Register</button>
+      <label id="errorMsg" *ngIf="status === 'failed'">Error in request</label>
     </div>
   </form>
 </section>

@@ -1,9 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { RegisterFormComponent } from './register-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
-import { getText, query, setInputValue } from '@testing';
+import { asyncData, asyncError, clickElemnt, getText, mockObservable, query, setCheckValue, setInputValue } from '@testing';
+import { generateOneUser } from 'src/app/models/user.model';
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -70,14 +71,58 @@ describe('RegisterFormComponent', () => {
     expect(errorInvalidDeb).toBeDefined()
   })
 
-  it('should the form be invalid', () => {
+  it('should the form be valid and complete succesfully request', fakeAsync(() => {
     component.form.patchValue({
       name: 'Nico',
       email: 'nico@gmil.com',
       password: '12121212',
       confirmPassword: '12121212',
-      checkTerms: false
+      checkTerms: true
     });
-    expect(component.form.invalid).toBeTruthy();
-  })
+    const mockUser = generateOneUser()
+    userService.create.and.returnValue(asyncData(mockUser))
+    component.register(new Event('submit'))
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(component.status).toEqual('success')
+    expect(component.form.valid).toBeTruthy();
+    expect(userService.create).toHaveBeenCalled()
+  }))
+
+  it('should submit fomr successfully from UI fields ', fakeAsync(() => {
+    setInputValue(fixture, '#name', 'Nico')
+    setInputValue(fixture, '#email', 'nico@gmil.com')
+    setInputValue(fixture, '#password','12121212')
+    setInputValue(fixture, '#confirmPassword', '12121212')
+    setCheckValue(fixture, '#terms', true)
+    const mockUser = generateOneUser()
+    userService.create.and.returnValue(asyncData(mockUser))
+    // query(fixture, 'form').triggerEventHandler('ngSubmit', new Event('submit'))
+    clickElemnt(fixture, '#submitBtn')
+    fixture.detectChanges()
+    expect(component.form.valid).toBeTruthy()
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(userService.create).toHaveBeenCalled()
+    expect(component.status).toEqual('success')
+  }))
+
+  it('should handle fail request in api', fakeAsync(() => {
+    setInputValue(fixture, '#name', 'Nico')
+    setInputValue(fixture, '#email', 'nico@gmil.com')
+    setInputValue(fixture, '#password','12121212')
+    setInputValue(fixture, '#confirmPassword', '12121212')
+    setCheckValue(fixture, '#terms', true)
+    userService.create.and.returnValue(asyncError('error'))
+    query(fixture, 'form').triggerEventHandler('ngSubmit', new Event('submit'))
+    fixture.detectChanges()
+    expect(component.form.valid).toBeTruthy()
+    expect(component.status).toEqual('loading')
+    tick()
+    expect(userService.create).toHaveBeenCalled()
+    expect(component.status).toEqual('failed')
+    fixture.detectChanges()
+    const errorLabel =  query(fixture, '#errorMsg').nativeElement
+    expect(errorLabel).toBeDefined()
+  }))
 });

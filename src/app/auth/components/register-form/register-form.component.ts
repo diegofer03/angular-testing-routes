@@ -25,6 +25,8 @@ export class RegisterFormComponent implements OnInit {
     }
   );
 
+  status : 'init' | 'loading' | 'success' | 'failed' = 'init'
+
   constructor(
     private fb: FormBuilder,
     private usersService: UserService
@@ -33,14 +35,22 @@ export class RegisterFormComponent implements OnInit {
   ngOnInit(): void {}
 
   register(event: Event) {
+    this.status = 'loading'
     event.preventDefault();
     if (this.form.valid) {
       const value = this.form.value as CreateUserDTO;
       this.usersService.create(value)
-      .subscribe((rta) => {
-        console.log(rta);
+      .subscribe({
+        next: (rta) => {
+          console.log(rta);
+          this.status = 'success'
+        },
+        error: (error) => {
+          this.status = 'failed'
+        }
       });
     } else {
+      this.status='failed'
       this.form.markAllAsTouched();
     }
   }
