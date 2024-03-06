@@ -5,20 +5,24 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserService } from 'src/app/services/user/user.service';
 import { asyncData, asyncError, clickElemnt, getText, mockObservable, query, setCheckValue, setInputValue } from '@testing';
 import { generateOneUser } from 'src/app/models/user.model';
+import { Router } from '@angular/router';
 
 describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let userService: jasmine.SpyObj<UserService>
+  let router: jasmine.SpyObj<Router>
 
   beforeEach(async () => {
     const spyUserService = jasmine.createSpyObj<UserService>('UserService', ['create'])
+    const spyRouter = jasmine.createSpyObj<Router>('Router', ['navigateByUrl'])
 
     await TestBed.configureTestingModule({
       declarations: [ RegisterFormComponent ],
       imports: [ReactiveFormsModule],
       providers: [
-        {provide: UserService, useValue: spyUserService}
+        {provide: UserService, useValue: spyUserService},
+        {provide: Router, useValue: spyRouter}
       ]
     })
     .compileComponents();
@@ -27,6 +31,7 @@ describe('RegisterFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterFormComponent);
     userService = TestBed.inject(UserService) as jasmine.SpyObj<UserService>
+    router = TestBed.inject(Router) as jasmine.SpyObj<Router>
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -105,6 +110,7 @@ describe('RegisterFormComponent', () => {
     tick()
     expect(userService.create).toHaveBeenCalled()
     expect(component.status).toEqual('success')
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/auth/login')
   }))
 
   it('should handle fail request in api', fakeAsync(() => {
