@@ -2,6 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { RouterLinkDirectiveStub, queryAllByDirective } from '@testing';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-banner'
+})class BannerComponentSub{}
+
+@Component({
+  selector: 'app-footer'
+})class FooterComponentSub{}
 
 fdescribe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
@@ -13,6 +22,8 @@ fdescribe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
+        BannerComponentSub,
+        FooterComponentSub,
         RouterLinkDirectiveStub
       ],
     }).compileComponents();

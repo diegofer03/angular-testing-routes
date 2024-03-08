@@ -16,6 +16,8 @@ import { ReversePipe } from './pipes/reverse.pipe';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { RegisterFormComponent } from './auth/components/register-form/register-form.component';
 import { LoginFormComponent } from './auth/components/login-form/login-form.component';
+import { BannerComponent } from './components/banner/banner.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { LoginFormComponent } from './auth/components/login-form/login-form.comp
     ReversePipe,
     ProductDetailComponent,
     RegisterFormComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    BannerComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
