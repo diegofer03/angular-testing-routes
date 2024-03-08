@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
   selector: 'app-footer'
 })class FooterComponentSub{}
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>
   let component : AppComponent
   beforeEach(async () => {
