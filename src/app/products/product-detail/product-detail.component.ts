@@ -13,7 +13,8 @@ import { Product } from 'src/app/models/app.models';
 export class ProductDetailComponent implements OnInit {
   productId: string | null = null;
   product: Product | null = null;
-
+  status : 'init' | 'loading' | 'success' | 'failed' = 'loading'
+  typeCustomer : string | null = ''
   constructor(
     private route: ActivatedRoute,
     private productsService: ProductsService,
@@ -29,12 +30,17 @@ export class ProductDetailComponent implements OnInit {
         this.goToBack();
       }
     });
+    this.route.queryParamMap.subscribe((params) => {
+      this.typeCustomer = params.get('type')
+    })
   }
 
   private getProduct(productId: string) {
+    this.status = 'loading'
     this.productsService.getOne(productId).subscribe({
       next: (data) => {
         this.product = data;
+        this.status = 'success'
       },
       error: () => {
         this.goToBack();
