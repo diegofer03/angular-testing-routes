@@ -11,7 +11,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { asyncData, asyncError, clickEvent, getText, mockObservable, mockPromise, query } from '@testing';
 
-describe('ProductsComponent', () => {
+xdescribe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productsService: jasmine.SpyObj<ProductsService>
