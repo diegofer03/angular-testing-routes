@@ -9,9 +9,9 @@ import { Product } from 'src/app/models/app.models';
 import { ValueService } from 'src/app/services/value/value.service';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { asyncData, asyncError, clickEvent, getText, mockObservable, mockPromise, query } from '@testing';
+import { RouterLinkDirectiveStub, asyncData, asyncError, clickEvent, getText, mockObservable, mockPromise, query } from '@testing';
 
-xdescribe('ProductsComponent', () => {
+describe('ProductsComponent', () => {
   let component: ProductsComponent;
   let fixture: ComponentFixture<ProductsComponent>;
   let productsService: jasmine.SpyObj<ProductsService>
@@ -22,7 +22,7 @@ xdescribe('ProductsComponent', () => {
     const valueSpy = jasmine.createSpyObj<ValueService>('ValueService', ['getPromiseValue'])
 
     await TestBed.configureTestingModule({
-      declarations: [ ProductsComponent, ProductComponent ],
+      declarations: [ ProductsComponent, ProductComponent, RouterLinkDirectiveStub ],
       providers: [
         {provide: ProductsService, useValue: spy},
         {provide: ValueService, useValue: valueSpy}

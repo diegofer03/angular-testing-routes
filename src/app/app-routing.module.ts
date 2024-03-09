@@ -6,6 +6,7 @@ import { PeopleComponent } from './components/people/people.component';
 import { PersonsComponent } from './components/persons/persons.component';
 import { OthersComponent } from './components/others/others.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
   },
   {
     path: 'others',
+    canActivate: [AuthGuard],
     title: 'Others',
     component: OthersComponent
   },
