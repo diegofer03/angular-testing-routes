@@ -7,7 +7,7 @@ import { PersonsComponent } from './components/persons/persons.component';
 import { OthersComponent } from './components/others/others.component';
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'products',
     title: 'Products',

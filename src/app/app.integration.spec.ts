@@ -1,68 +1,66 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from "@angular/core/testing"
 import { AppComponent } from "./app.component"
 import { RouterTestingModule } from "@angular/router/testing"
-import { Component } from "@angular/core"
+import { Component, NO_ERRORS_SCHEMA } from "@angular/core"
 import { Router } from "@angular/router"
 import { clickElemnt, query } from "@testing"
+import { AppModule } from "./app.module"
+import { AppRoutingModule, routes } from "./app-routing.module"
 
-@Component({
-  selector: 'app-banner'
-})class BannerComponentSub{}
+// @Component({
+//   selector: 'app-banner'
+// })class BannerComponentSub{}
 
-@Component({
-  selector: 'app-footer'
-})class FooterComponentSub{}
+// @Component({
+//   selector: 'app-footer'
+// })class FooterComponentSub{}
 
-@Component({
-  selector: 'app-people'
-})
-class PeopleComponent {}
+// @Component({
+//   selector: 'app-people'
+// })
+// class PeopleComponent {}
 
-@Component({
-  selector: 'app-others'
-})
-class OthersComponent {}
+// @Component({
+//   selector: 'app-others'
+// })
+// class OthersComponent {}
 
-@Component({
-  selector: 'app-pico-preview'
-})
-class PicoPreviewComponent {}
+// @Component({
+//   selector: 'app-pico-preview'
+// })
+// class PicoPreviewComponent {}
 
-const routes = [
-  {
-    path: 'pico-preview',
-    component: PicoPreviewComponent
-  },
-  {
-    path: 'people',
-    component: PeopleComponent
-  },
-  {
-    path: 'others',
-    component: OthersComponent
-  },
-]
+// const routes = [
+//   {
+//     path: 'pico-preview',
+//     component: PicoPreviewComponent
+//   },
+//   {
+//     path: 'people',
+//     component: PeopleComponent
+//   },
+//   {
+//     path: 'others',
+//     component: OthersComponent
+//   },
+// ]
 
 fdescribe('integatrion test', () => {
   let fixture : ComponentFixture<AppComponent>
   let component : AppComponent
   let router : Router
 
-  beforeEach( fakeAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes(routes)
+        AppModule,
+        RouterTestingModule.withRoutes(routes),
       ],
-      declarations: [
-        AppComponent,
-        BannerComponentSub,
-        FooterComponentSub,
-        PeopleComponent,
-        PicoPreviewComponent,
-        OthersComponent
-      ]
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents()
+  })
 
+  beforeEach( fakeAsync(() => {
     fixture = TestBed.createComponent(AppComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
